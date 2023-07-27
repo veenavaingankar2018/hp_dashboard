@@ -19,17 +19,13 @@ public class SalesRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToOne
-	private Operator operator;
-//	private Timestamp startTime;
-//	private Timestamp endTime;
+	private Timestamp startTime;
+	private Timestamp endTime;
 	private String product;
 	private Double rate;
-	private Integer startReading;
-	private Integer endReading;
-	private Integer salesVolume;
-	private Integer pumpTestVolume;
+	private Double startReading;
+	private Double endReading;
+	private Double salesVolume;
+	private Double pumpTestVolume;
 	private Double amount;
-	@OneToOne
-	private Deposit deposit;
 }

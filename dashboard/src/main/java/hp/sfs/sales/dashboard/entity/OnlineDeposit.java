@@ -17,9 +17,7 @@ public class OnlineDeposit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToOne
-	private Deposit deposit;
-	private String mode;
-	private Double amount;
+	private String mode;	//DB mapping table
+	private Double amount;	
 	private String remark;
 }

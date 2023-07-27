@@ -6,12 +6,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SalesRecordDto {
-	private Long operatorId;
+	private String startTime;
+	private String endTime;
 	private String product;
 	private Double rate;
-	private Integer startReading;
-	private Integer endReading;
-	private Integer salesVolume;
-	private Integer pumpTestVolume;
+	private Double startReading;
+	private Double endReading;
+	private Double salesVolume;
+	private Double pumpTestVolume;
 	private Double amount;
 }

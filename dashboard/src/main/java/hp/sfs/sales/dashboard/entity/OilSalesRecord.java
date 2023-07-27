@@ -16,12 +16,9 @@ public class OilSalesRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToOne
-	private Operator operator;
+	
 	//private Timestamp date;
-	private String product;
+	private String productName;
 	private Integer quantity;
 	private Double amount;
-	@OneToOne
-	private Deposit deposit;
 }

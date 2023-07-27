@@ -9,10 +9,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SaleDetailsDto {
-	@JsonProperty("salesDetails")
-	SalesRecordDto salesRecord;
-	
-	@JsonProperty("onlineDeposit")
-	List<OnlineDepositDto> onlineDeposit;
+public class OilSaleDto {
+	//private String date;
+	private String productName;
+	private Integer quantity;
+	private Double amount;
 }
