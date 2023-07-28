@@ -1,7 +1,18 @@
 package hp.sfs.sales.dashboard.dto;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+
 import lombok.Getter;
 import lombok.Setter;
+import java.lang.reflect.Type;
 
 @Getter
 @Setter
@@ -16,3 +27,4 @@ public class SalesRecordDto {
 	private Double pumpTestVolume;
 	private Double amount;
 }
+
