@@ -1,8 +1,12 @@
 package hp.sfs.sales.dashboard.service;
 
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,14 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import hp.sfs.sales.dashboard.dto.AllSalesDetailsDto;
 import hp.sfs.sales.dashboard.dto.CreditTransactionDto;
@@ -104,7 +116,7 @@ public class SalesService {
 	}
 
 	public List<SalesRecord> saveSalesRecords(List<SalesRecordDto> salesRecordList) {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("dd-MM-yyyy HH:mm:ss").create();
 		String salesList = gson.toJson(salesRecordList);
 		List<SalesRecord> salesRecords = Arrays.asList(gson.fromJson(salesList, SalesRecord[].class));
 		return salesRecordRepository.saveAll(salesRecords);
