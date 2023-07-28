@@ -26,16 +26,16 @@ public class DebtorController {
 	@Autowired
 	DebtorService service;
 
-	@GetMapping
+	@GetMapping("/")
 	public ResponseEntity<?> getAllDebtors() {
 		List<Debtor> debtorList = service.getAllDebtors();
 		if (debtorList.isEmpty())
-			return ResponseEntity.status(HttpStatus.OK).body("Debtors are not avaialble");
+			return ResponseEntity.status(HttpStatus.OK).body("Debtors are not available");
 
 		return ResponseEntity.status(HttpStatus.OK).body(debtorList);
 	}
 
-	@PostMapping
+	@PostMapping("/")
 	public ResponseEntity<?> saveOperator(@RequestBody Map<String, String> map) {
 		ObjectMapper mapper = new ObjectMapper();
 		Debtor debtor = mapper.convertValue(map, Debtor.class);
@@ -43,7 +43,7 @@ public class DebtorController {
 		return ResponseEntity.status(HttpStatus.OK).body(debtor);
 	}
 
-	@PutMapping
+	@PutMapping("/")
 	public ResponseEntity<?> updateOperator(@RequestParam Long id, @RequestBody Map<String, String> map) {
 		return ResponseEntity.status(HttpStatus.OK).body(service.updateDebtor(id, map));
 	}

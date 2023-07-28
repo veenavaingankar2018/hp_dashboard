@@ -3,7 +3,6 @@ package hp.sfs.sales.dashboard.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +18,13 @@ import hp.sfs.sales.dashboard.entity.Operator;
 import hp.sfs.sales.dashboard.service.OperatorService;
 
 @RestController
-@RequestMapping("/operatos")
+@RequestMapping("/operator")
 public class OperatorController {
 	@Autowired
 	OperatorService service;
 
-	@GetMapping
-	public ResponseEntity<?> getAllOperatos() {
+	@GetMapping("/")
+	public ResponseEntity<?> getAllOperators() {
 		List<Operator> operatorList = service.getAllOperatos();
 		if (operatorList.isEmpty())
 			return ResponseEntity.status(HttpStatus.OK).body("Operators are not available");
@@ -33,7 +32,7 @@ public class OperatorController {
 		return ResponseEntity.status(HttpStatus.OK).body(operatorList);
 	}
 
-	@PostMapping
+	@PostMapping("/")
 	public ResponseEntity<?> saveOperator(@RequestBody Map<String, String> map) {
 		ObjectMapper mapper = new ObjectMapper();
 		Operator operator = mapper.convertValue(map, Operator.class);
@@ -41,7 +40,7 @@ public class OperatorController {
 		return ResponseEntity.status(HttpStatus.OK).body(operator);
 	}
 
-	@PutMapping
+	@PutMapping("/")
 	public ResponseEntity<?> updateOperator(@RequestParam Long id, @RequestBody Map<String, String> map) {
 		return ResponseEntity.status(HttpStatus.OK).body(service.updateOperator(id, map));
 	}
