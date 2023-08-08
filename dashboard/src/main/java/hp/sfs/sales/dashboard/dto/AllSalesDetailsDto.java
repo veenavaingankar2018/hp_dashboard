@@ -26,6 +26,4 @@ public class AllSalesDetailsDto {
 	
 	@JsonProperty("creditDetails")
 	List<CreditTransactionDto> creditTransactions;
-	
-	Double difference;//toDo : to be calculated
 }

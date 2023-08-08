@@ -1,8 +1,7 @@
 package hp.sfs.sales.dashboard.entity;
 
+import java.sql.Timestamp;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,9 +22,13 @@ public class Deposit {
 	
 	@OneToOne
 	private Operator operator;
-	
-	private Double difference;
-	
+
+	private Timestamp recordDate;
+
+	private Double totalSalesValue;
+
+	private Double netCollection;
+
 	@OneToOne
 	private Cash cashCollected;
 	
