@@ -1,9 +1,7 @@
 package hp.sfs.sales.dashboard.dto;
 
-import java.sql.Timestamp;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import hp.sfs.sales.dashboard.enums.CreditTransactionType;
+import hp.sfs.sales.dashboard.enums.ProductType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,13 +9,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreditTransactionDto {
-	private String transactionType;	//ToDo: make this enum
+	private CreditTransactionType transactionType;
 	
 	private String driverName;
 	
 	private String vehicleNumber;
 	
-	private String product;		//ToDo: Make this enum
+	private ProductType product;
 	
 	private Double amount;
 	

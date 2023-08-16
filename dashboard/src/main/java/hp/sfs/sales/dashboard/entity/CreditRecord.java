@@ -2,6 +2,8 @@ package hp.sfs.sales.dashboard.entity;
 
 import hp.sfs.sales.dashboard.enums.CreditTransactionType;
 import hp.sfs.sales.dashboard.enums.ProductType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Entity;
@@ -23,13 +25,15 @@ public class CreditRecord {
 	
 	@ManyToOne			// ToDo: Need to check and brainstorm
 	private Debtor debtor;
-	
+
+	@Enumerated(EnumType.STRING)
 	private CreditTransactionType transactionType;
 	
 	private String driverName;
 	
 	private String vehicleNumber;
-	
+
+	@Enumerated(EnumType.STRING)
 	private ProductType product;
 	
 	private Double amount;

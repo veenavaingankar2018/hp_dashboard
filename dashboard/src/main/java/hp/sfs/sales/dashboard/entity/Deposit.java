@@ -43,4 +43,7 @@ public class Deposit {
 	
 	@OneToMany
 	private List<CreditRecord> creditRecords;
+
+	@OneToMany
+	private List<Expense> expenses;
 }

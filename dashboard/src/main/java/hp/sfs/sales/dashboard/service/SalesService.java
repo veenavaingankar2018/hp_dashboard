@@ -1,6 +1,9 @@
 package hp.sfs.sales.dashboard.service;
 
+import hp.sfs.sales.dashboard.dto.ExpenseDto;
+import hp.sfs.sales.dashboard.entity.Expense;
 import hp.sfs.sales.dashboard.enums.CreditTransactionType;
+import hp.sfs.sales.dashboard.repository.ExpenseRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -55,12 +58,16 @@ public class SalesService {
   @Autowired
   CashRepositiory cashRepositiory;
 
+  @Autowired
+  ExpenseRepository expenseRepository;
+
   public void saveSalesDetails(AllSalesDetailsDto salesDetails) {
     Operator operator ;
     List<SalesRecord> salesRecords = null;
     List<OilSalesRecord> oilSalesRecords = null;
     List<OnlineDeposit> onlineDeposits = null;
     List<CreditRecord> creditRecords = null;
+    List<Expense> expenses = null;
 
     Long operatorId = salesDetails.getOperatorId();
 
@@ -93,9 +100,14 @@ public class SalesService {
       creditRecords = saveCreditDetails(creditDetails);
     }
 
+    List<ExpenseDto> expenseDetails = salesDetails.getExpenses();
+    if (Optional.ofNullable(expenseDetails).isPresent() && !expenseDetails.isEmpty()) {
+      expenses =  saveExpenses(expenseDetails);
+    }
+
     Cash cash = saveCash(salesDetails.getCashCollected());
 
-    saveDeposit(operator, salesRecords, oilSalesRecords, onlineDeposits, creditRecords, cash);
+    saveDeposit(operator, salesRecords, oilSalesRecords, onlineDeposits, creditRecords, expenses, cash);
 
   }
 
@@ -107,20 +119,30 @@ public class SalesService {
   }
 
   private Double getNetCollection(List<OnlineDeposit> onlineDeposits,
-                                  List<CreditRecord> creditRecords, Cash cash) {
+                                  List<CreditRecord> creditRecords,
+                                  List<Expense> expenses,
+                                  Cash cash) {
     double totalOnlineCollection =
         onlineDeposits.stream().mapToDouble(OnlineDeposit::getAmount).sum();
     double creditGiven = creditRecords.stream().filter(c -> c.getTransactionType().equals(
         CreditTransactionType.ISSUED)).mapToDouble(CreditRecord::getAmount).sum();
     double creditCleared = creditRecords.stream().filter(c -> c.getTransactionType().equals(
         CreditTransactionType.DEPOSITED)).mapToDouble(CreditRecord::getAmount).sum();
-    return totalOnlineCollection + creditGiven + cash.getCashCollected() - creditCleared;
+    double totalExpenses = expenses.stream().mapToDouble(Expense::getAmount).sum();
+    return totalOnlineCollection + creditGiven + cash.getCashCollected() - creditCleared - totalExpenses;
   }
 
   public Cash saveCash(Double cashCollected) {
     Cash cash = new Cash();
     cash.setCashCollected(cashCollected);
     return cashRepositiory.save(cash);
+  }
+
+  private List<Expense> saveExpenses(List<ExpenseDto> expenseDetails) {
+    Gson gson = new Gson();
+    String expenseList = gson.toJson(expenseDetails);
+    List<Expense> expenses = Arrays.asList(gson.fromJson(expenseList, Expense[].class));
+    return expenseRepository.saveAll(expenses);
   }
 
   public List<SalesRecord> saveSalesRecords(List<SalesRecordDto> salesRecordList) {
@@ -157,10 +179,11 @@ public class SalesService {
   public void saveDeposit(Operator operator, List<SalesRecord> salesRecords,
                           List<OilSalesRecord> oilSalesRecords,
                           List<OnlineDeposit> onlineDeposits, List<CreditRecord> creditRecords,
+                          List<Expense> expenses,
                           Cash cash) {
     Deposit deposit = new Deposit();
     deposit.setTotalSalesValue(getTotalSalesValue(salesRecords, oilSalesRecords));
-    deposit.setNetCollection(getNetCollection(onlineDeposits, creditRecords, cash));
+    deposit.setNetCollection(getNetCollection(onlineDeposits, creditRecords, expenses, cash));
     deposit.setOperator(operator);
     deposit.setSalesRecords(salesRecords);
     deposit.setOilSalesRecords(oilSalesRecords);

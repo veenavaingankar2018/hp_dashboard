@@ -16,7 +16,6 @@ public class AllSalesDetailsDto {
 	
 	@JsonProperty("salesDetails")
 	List<SalesRecordDto> salesRecords;
-	
 
 	@JsonProperty("oilSales")
 	List<OilSaleDto> oilSales;
@@ -26,4 +25,7 @@ public class AllSalesDetailsDto {
 	
 	@JsonProperty("creditDetails")
 	List<CreditTransactionDto> creditTransactions;
+
+	@JsonProperty("expenses")
+	List<ExpenseDto> expenses;
 }
