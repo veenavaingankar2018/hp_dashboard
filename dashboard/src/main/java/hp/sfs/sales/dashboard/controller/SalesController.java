@@ -18,7 +18,7 @@ public class SalesController {
 	@Autowired
 	SalesService service;
 
-	@PostMapping("/")
+	@PostMapping(path ="/save")
 	public ResponseEntity<?> saveSalesDetails(@RequestBody AllSalesDetailsDto salesDetails) {
 		try {
 			service.saveSalesDetails(salesDetails);
