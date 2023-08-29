@@ -23,16 +23,16 @@ public class OperatorController {
 	@Autowired
 	OperatorService service;
 
-	@GetMapping("/")
+	@GetMapping(path = "/get")
 	public ResponseEntity<?> getAllOperators() {
 		List<Operator> operatorList = service.getAllOperatos();
-		if (operatorList.isEmpty())
-			return ResponseEntity.status(HttpStatus.OK).body("Operators are not available");
+//		if (operatorList.isEmpty())
+//			return ResponseEntity.status(HttpStatus.OK).body("Operators are not available");
 
 		return ResponseEntity.status(HttpStatus.OK).body(operatorList);
 	}
 
-	@PostMapping("/")
+	@PostMapping(path = "/save")
 	public ResponseEntity<?> saveOperator(@RequestBody Map<String, String> map) {
 		ObjectMapper mapper = new ObjectMapper();
 		Operator operator = mapper.convertValue(map, Operator.class);
@@ -40,7 +40,7 @@ public class OperatorController {
 		return ResponseEntity.status(HttpStatus.OK).body(operator);
 	}
 
-	@PutMapping("/")
+	@PutMapping(path = "/update")
 	public ResponseEntity<?> updateOperator(@RequestParam Long id, @RequestBody Map<String, String> map) {
 		return ResponseEntity.status(HttpStatus.OK).body(service.updateOperator(id, map));
 	}
