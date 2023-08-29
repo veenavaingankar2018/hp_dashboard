@@ -13,6 +13,8 @@ public class AllSalesDetailsDto {
 	Long operatorId;
 	
 	Double cashCollected;
+
+	String recordDate;
 	
 	@JsonProperty("salesDetails")
 	List<SalesRecordDto> salesRecords;

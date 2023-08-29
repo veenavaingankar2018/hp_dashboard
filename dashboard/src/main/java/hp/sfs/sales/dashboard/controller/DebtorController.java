@@ -1,7 +1,7 @@
 package hp.sfs.sales.dashboard.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import hp.sfs.sales.dashboard.entity.Debtor;
 import hp.sfs.sales.dashboard.service.DebtorService;
@@ -36,16 +34,14 @@ public class DebtorController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> saveOperator(@RequestBody Map<String, String> map) {
-		ObjectMapper mapper = new ObjectMapper();
-		Debtor debtor = mapper.convertValue(map, Debtor.class);
+	public ResponseEntity<?> saveOperator(@Valid @RequestBody Debtor debtor) {
 		debtor = service.saveDebtor(debtor);
 		return ResponseEntity.status(HttpStatus.OK).body(debtor);
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<?> updateOperator(@RequestParam Long id, @RequestBody Map<String, String> map) {
-		return ResponseEntity.status(HttpStatus.OK).body(service.updateDebtor(id, map));
+	public ResponseEntity<?> updateOperator(@RequestParam Long id, @Valid @RequestBody Debtor debtor) {
+		return ResponseEntity.status(HttpStatus.OK).body(service.updateDebtor(id, debtor));
 	}
 
 }

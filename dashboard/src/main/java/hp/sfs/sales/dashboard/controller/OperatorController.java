@@ -1,7 +1,7 @@
 package hp.sfs.sales.dashboard.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hp.sfs.sales.dashboard.entity.Operator;
 import hp.sfs.sales.dashboard.service.OperatorService;
 
@@ -33,15 +32,13 @@ public class OperatorController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> saveOperator(@RequestBody Map<String, String> map) {
-		ObjectMapper mapper = new ObjectMapper();
-		Operator operator = mapper.convertValue(map, Operator.class);
+	public ResponseEntity<?> saveOperator(@Valid @RequestBody Operator operator) {
 		operator = service.saveOperator(operator);
 		return ResponseEntity.status(HttpStatus.OK).body(operator);
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<?> updateOperator(@RequestParam Long id, @RequestBody Map<String, String> map) {
-		return ResponseEntity.status(HttpStatus.OK).body(service.updateOperator(id, map));
+	public ResponseEntity<?> updateOperator(@RequestParam Long id, @Valid @RequestBody Operator operator) {
+		return ResponseEntity.status(HttpStatus.OK).body(service.updateOperator(id, operator));
 	}
 }
